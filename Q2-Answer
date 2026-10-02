@@ -1,2 +1,2 @@
 select DISTINCT e.code, s.ticker, ROUND(((m.close_price - m.open_price)/m.open_price)*100, 2) FROM Exchange e, Stock s, MarketPrice m
-where ROUND(((m.close_price - m.open_price)/m.open_price)*100, 2) > 5.00;
+where ROUND(((m.close_price - m.open_price)/m.open_price)*100, 2) > 5.00 AND m.tday = '2026-09-26';
