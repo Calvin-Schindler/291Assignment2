@@ -1,0 +1,6 @@
+select DISTINCT c.name, c.company_id FROM Company c
+JOIN Stock s1
+ON c.company_id = s1.company_id
+JOIN Stock s2
+ON c.company_id = s2.company_id
+WHERE s1.exg_code <> s2.exg_code;
