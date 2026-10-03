@@ -1,1 +1,8 @@
-
+SELECT o.order_id, ROUND((MAX(t.executed_at) - MIN(t.executed_at)), 2) FROM Orders o
+JOIN Trade t
+    ON o.order_id = t.order_id
+GROUP BY o.order_id, o.qty
+HAVING
+    SUM(t.qty) = o.qty
+    AND
+    (MAX(t.executed_at) - MIN(t.executed_at)) > 3600;
