@@ -1,1 +1,10 @@
-
+SELECT exg_code, ticker, COUNT(DISTINCT account_id) FROM Holding
+GROUP BY exg_code, ticker
+HAVING COUNT(DISTINCT account_id) = (
+    SELECT MAX(account_count)
+    FROM (
+        SELECT COUNT(DISTINCT account_id) AS account_count
+        FROM Holding
+        GROUP BY exg_code, ticker
+    )
+);
