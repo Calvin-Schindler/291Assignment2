@@ -1,1 +1,16 @@
-
+SELECT h.account_id, c.sector, ROUND(100.0 * SUM(h.qty * mp1.close_price) / SUM(SUM(h.qty * mp1.close_price)) OVER (PARTITION BY h.account_id), 2) FROM Holding h
+JOIN Stock s
+   ON h.exg_code = s.exg_code
+   AND h.ticker = s.ticker
+JOIN Company c
+    ON s.company_id = c.company_id
+JOIN MarketPrice mp1
+    ON h.exg_code = mp1.exg_code
+   AND h.ticker = mp1.ticker
+WHERE mp.tday = (
+    SELECT MAX(mp2.tday)
+    FROM MarketPrice mp2
+    WHERE mp2.exg_code = mp1.exg_code
+      AND mp2.ticker = mp1.ticker
+)
+GROUP BY h.account_id, c.sector;
